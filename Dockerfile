@@ -10,10 +10,18 @@ RUN apk update \
     bash=5.1.16-r2 \
     sqlite=3.38.5-r0
 
-RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.28 \
+RUN go install github.com/mattn/entgen@latest \
+  && go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.28 \
   && go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.2 \
   && go install github.com/cosmtrek/air@v1.40.3
 
 WORKDIR /go/src/app
+
+## Create database.
+# COPY users.sql .
+# RUN sqlite3 users.sqlite < users.sql
+
+## Generate ent's schema
+# RUN entgen -driver sqlite3 -dsn ./users.sqlite -rplural
 
 ENTRYPOINT [ "bash" ]
