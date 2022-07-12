@@ -1,1 +1,1 @@
-CREATE TABLE `users` (`id` text PRIMARY KEY NOT NULL, `name` text, `email` text);
+CREATE TABLE `users` (`id` varchar PRIMARY KEY NOT NULL, `age` int, `name` text);
