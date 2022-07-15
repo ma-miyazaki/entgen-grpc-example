@@ -15,7 +15,7 @@ type User struct {
 func (User) Annotations() []schema.Annotation {
 	return []schema.Annotation{
 		entproto.Message(),
-		// entproto.Service(), // also generate a gRPC service definition
+		entproto.Service(), // also generate a gRPC service definition
 	}
 }
 
