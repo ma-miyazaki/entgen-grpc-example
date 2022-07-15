@@ -19,4 +19,5 @@ RUN go install github.com/mattn/entgen@latest \
 
 WORKDIR /go/src/app
 
-ENTRYPOINT [ "bash" ]
+# ENTRYPOINT [ "bash" ]
+ENTRYPOINT [ "air", "-c", "tools/air/.air.toml" ]

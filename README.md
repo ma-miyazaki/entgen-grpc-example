@@ -37,3 +37,20 @@ Add a last line to _ent/generate.go_ .
 ```go:ent/generate.go
 //go:generate go run -mod=mod entgo.io/contrib/entproto/cmd/entproto -path ./schema
 ```
+
+## Generate code
+
+Generate the code form following plugins.
+- form protoc-gen-go (which generates Go Protobuf structs)
+- protoc-gen-go-grpc (which generates Go gRPC service interfaces and clients)
+- protoc-gen-entgrpc (which generates an implementation of the service interface)
+
+```sh
+docker-compose exec go go generate ./...
+```
+
+## Run
+
+```sh
+docker-compose exec go go run ./cmd/server
+```

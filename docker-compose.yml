@@ -4,6 +4,6 @@ services:
     build: ./
     volumes:
       - .:/go/src/app
-    # ports:
-    #   - 50051:50051
+    ports:
+      - 50050:50050
     tty: true
