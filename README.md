@@ -13,6 +13,7 @@ docker-compose exec go entgen -driver sqlite3 -dsn ./users.sqlite -rplural
 ```
 __Notice__
 entgen cannot output collect types from sqlite. So, overwrite field types in _./ent/schema/user.go_ .
+Add ID field if the type is not _int_ .
 
 ## Generate ent assets
 
