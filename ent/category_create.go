@@ -10,6 +10,7 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 	"github.com/ma-miyazaki/entgen-grpc-example/ent/category"
+	"github.com/ma-miyazaki/entgen-grpc-example/ent/user"
 )
 
 // CategoryCreate is the builder for creating a Category entity.
@@ -29,6 +30,25 @@ func (cc *CategoryCreate) SetName(s string) *CategoryCreate {
 func (cc *CategoryCreate) SetID(s string) *CategoryCreate {
 	cc.mutation.SetID(s)
 	return cc
+}
+
+// SetAdminID sets the "admin" edge to the User entity by ID.
+func (cc *CategoryCreate) SetAdminID(id string) *CategoryCreate {
+	cc.mutation.SetAdminID(id)
+	return cc
+}
+
+// SetNillableAdminID sets the "admin" edge to the User entity by ID if the given value is not nil.
+func (cc *CategoryCreate) SetNillableAdminID(id *string) *CategoryCreate {
+	if id != nil {
+		cc = cc.SetAdminID(*id)
+	}
+	return cc
+}
+
+// SetAdmin sets the "admin" edge to the User entity.
+func (cc *CategoryCreate) SetAdmin(u *User) *CategoryCreate {
+	return cc.SetAdminID(u.ID)
 }
 
 // Mutation returns the CategoryMutation object of the builder.
@@ -153,6 +173,26 @@ func (cc *CategoryCreate) createSpec() (*Category, *sqlgraph.CreateSpec) {
 			Column: category.FieldName,
 		})
 		_node.Name = value
+	}
+	if nodes := cc.mutation.AdminIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: false,
+			Table:   category.AdminTable,
+			Columns: []string{category.AdminColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: &sqlgraph.FieldSpec{
+					Type:   field.TypeString,
+					Column: user.FieldID,
+				},
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_node.admin_id = &nodes[0]
+		_spec.Edges = append(_spec.Edges, edge)
 	}
 	return _node, _spec
 }

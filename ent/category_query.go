@@ -12,6 +12,7 @@ import (
 	"entgo.io/ent/schema/field"
 	"github.com/ma-miyazaki/entgen-grpc-example/ent/category"
 	"github.com/ma-miyazaki/entgen-grpc-example/ent/predicate"
+	"github.com/ma-miyazaki/entgen-grpc-example/ent/user"
 )
 
 // CategoryQuery is the builder for querying Category entities.
@@ -23,6 +24,9 @@ type CategoryQuery struct {
 	order      []OrderFunc
 	fields     []string
 	predicates []predicate.Category
+	// eager-loading edges.
+	withAdmin *UserQuery
+	withFKs   bool
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -57,6 +61,28 @@ func (cq *CategoryQuery) Unique(unique bool) *CategoryQuery {
 func (cq *CategoryQuery) Order(o ...OrderFunc) *CategoryQuery {
 	cq.order = append(cq.order, o...)
 	return cq
+}
+
+// QueryAdmin chains the current query on the "admin" edge.
+func (cq *CategoryQuery) QueryAdmin() *UserQuery {
+	query := &UserQuery{config: cq.config}
+	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
+		if err := cq.prepareQuery(ctx); err != nil {
+			return nil, err
+		}
+		selector := cq.sqlQuery(ctx)
+		if err := selector.Err(); err != nil {
+			return nil, err
+		}
+		step := sqlgraph.NewStep(
+			sqlgraph.From(category.Table, category.FieldID, selector),
+			sqlgraph.To(user.Table, user.FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, false, category.AdminTable, category.AdminColumn),
+		)
+		fromU = sqlgraph.SetNeighbors(cq.driver.Dialect(), step)
+		return fromU, nil
+	}
+	return query
 }
 
 // First returns the first Category entity from the query.
@@ -240,11 +266,23 @@ func (cq *CategoryQuery) Clone() *CategoryQuery {
 		offset:     cq.offset,
 		order:      append([]OrderFunc{}, cq.order...),
 		predicates: append([]predicate.Category{}, cq.predicates...),
+		withAdmin:  cq.withAdmin.Clone(),
 		// clone intermediate query.
 		sql:    cq.sql.Clone(),
 		path:   cq.path,
 		unique: cq.unique,
 	}
+}
+
+// WithAdmin tells the query-builder to eager-load the nodes that are connected to
+// the "admin" edge. The optional arguments are used to configure the query builder of the edge.
+func (cq *CategoryQuery) WithAdmin(opts ...func(*UserQuery)) *CategoryQuery {
+	query := &UserQuery{config: cq.config}
+	for _, opt := range opts {
+		opt(query)
+	}
+	cq.withAdmin = query
+	return cq
 }
 
 // GroupBy is used to group vertices by one or more fields/columns.
@@ -315,15 +353,26 @@ func (cq *CategoryQuery) prepareQuery(ctx context.Context) error {
 
 func (cq *CategoryQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Category, error) {
 	var (
-		nodes = []*Category{}
-		_spec = cq.querySpec()
+		nodes       = []*Category{}
+		withFKs     = cq.withFKs
+		_spec       = cq.querySpec()
+		loadedTypes = [1]bool{
+			cq.withAdmin != nil,
+		}
 	)
+	if cq.withAdmin != nil {
+		withFKs = true
+	}
+	if withFKs {
+		_spec.Node.Columns = append(_spec.Node.Columns, category.ForeignKeys...)
+	}
 	_spec.ScanValues = func(columns []string) ([]interface{}, error) {
 		return (*Category).scanValues(nil, columns)
 	}
 	_spec.Assign = func(columns []string, values []interface{}) error {
 		node := &Category{config: cq.config}
 		nodes = append(nodes, node)
+		node.Edges.loadedTypes = loadedTypes
 		return node.assignValues(columns, values)
 	}
 	for i := range hooks {
@@ -335,6 +384,36 @@ func (cq *CategoryQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Cat
 	if len(nodes) == 0 {
 		return nodes, nil
 	}
+
+	if query := cq.withAdmin; query != nil {
+		ids := make([]string, 0, len(nodes))
+		nodeids := make(map[string][]*Category)
+		for i := range nodes {
+			if nodes[i].admin_id == nil {
+				continue
+			}
+			fk := *nodes[i].admin_id
+			if _, ok := nodeids[fk]; !ok {
+				ids = append(ids, fk)
+			}
+			nodeids[fk] = append(nodeids[fk], nodes[i])
+		}
+		query.Where(user.IDIn(ids...))
+		neighbors, err := query.All(ctx)
+		if err != nil {
+			return nil, err
+		}
+		for _, n := range neighbors {
+			nodes, ok := nodeids[n.ID]
+			if !ok {
+				return nil, fmt.Errorf(`unexpected foreign-key "admin_id" returned %v`, n.ID)
+			}
+			for i := range nodes {
+				nodes[i].Edges.Admin = n
+			}
+		}
+	}
+
 	return nodes, nil
 }
 

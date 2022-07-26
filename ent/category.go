@@ -8,6 +8,7 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/ma-miyazaki/entgen-grpc-example/ent/category"
+	"github.com/ma-miyazaki/entgen-grpc-example/ent/user"
 )
 
 // Category is the model entity for the Category schema.
@@ -17,6 +18,33 @@ type Category struct {
 	ID string `json:"id,omitempty"`
 	// Name holds the value of the "name" field.
 	Name string `json:"name,omitempty"`
+	// Edges holds the relations/edges for other nodes in the graph.
+	// The values are being populated by the CategoryQuery when eager-loading is set.
+	Edges    CategoryEdges `json:"edges"`
+	admin_id *string
+}
+
+// CategoryEdges holds the relations/edges for other nodes in the graph.
+type CategoryEdges struct {
+	// Admin holds the value of the admin edge.
+	Admin *User `json:"admin,omitempty"`
+	// loadedTypes holds the information for reporting if a
+	// type was loaded (or requested) in eager-loading or not.
+	loadedTypes [1]bool
+}
+
+// AdminOrErr returns the Admin value or an error if the edge
+// was not loaded in eager-loading, or loaded but was not found.
+func (e CategoryEdges) AdminOrErr() (*User, error) {
+	if e.loadedTypes[0] {
+		if e.Admin == nil {
+			// The edge admin was loaded in eager-loading,
+			// but was not found.
+			return nil, &NotFoundError{label: user.Label}
+		}
+		return e.Admin, nil
+	}
+	return nil, &NotLoadedError{edge: "admin"}
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -25,6 +53,8 @@ func (*Category) scanValues(columns []string) ([]interface{}, error) {
 	for i := range columns {
 		switch columns[i] {
 		case category.FieldID, category.FieldName:
+			values[i] = new(sql.NullString)
+		case category.ForeignKeys[0]: // admin_id
 			values[i] = new(sql.NullString)
 		default:
 			return nil, fmt.Errorf("unexpected column %q for type Category", columns[i])
@@ -53,9 +83,21 @@ func (c *Category) assignValues(columns []string, values []interface{}) error {
 			} else if value.Valid {
 				c.Name = value.String
 			}
+		case category.ForeignKeys[0]:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field admin_id", values[i])
+			} else if value.Valid {
+				c.admin_id = new(string)
+				*c.admin_id = value.String
+			}
 		}
 	}
 	return nil
+}
+
+// QueryAdmin queries the "admin" edge of the Category entity.
+func (c *Category) QueryAdmin() *UserQuery {
+	return (&CategoryClient{config: c.config}).QueryAdmin(c)
 }
 
 // Update returns a builder for updating this Category.

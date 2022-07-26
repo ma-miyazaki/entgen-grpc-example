@@ -4,6 +4,7 @@ package category
 
 import (
 	"entgo.io/ent/dialect/sql"
+	"entgo.io/ent/dialect/sql/sqlgraph"
 	"github.com/ma-miyazaki/entgen-grpc-example/ent/predicate"
 )
 
@@ -193,6 +194,34 @@ func NameEqualFold(v string) predicate.Category {
 func NameContainsFold(v string) predicate.Category {
 	return predicate.Category(func(s *sql.Selector) {
 		s.Where(sql.ContainsFold(s.C(FieldName), v))
+	})
+}
+
+// HasAdmin applies the HasEdge predicate on the "admin" edge.
+func HasAdmin() predicate.Category {
+	return predicate.Category(func(s *sql.Selector) {
+		step := sqlgraph.NewStep(
+			sqlgraph.From(Table, FieldID),
+			sqlgraph.To(AdminTable, FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, false, AdminTable, AdminColumn),
+		)
+		sqlgraph.HasNeighbors(s, step)
+	})
+}
+
+// HasAdminWith applies the HasEdge predicate on the "admin" edge with a given conditions (other predicates).
+func HasAdminWith(preds ...predicate.User) predicate.Category {
+	return predicate.Category(func(s *sql.Selector) {
+		step := sqlgraph.NewStep(
+			sqlgraph.From(Table, FieldID),
+			sqlgraph.To(AdminInverseTable, FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, false, AdminTable, AdminColumn),
+		)
+		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
+			for _, p := range preds {
+				p(s)
+			}
+		})
 	})
 }
 

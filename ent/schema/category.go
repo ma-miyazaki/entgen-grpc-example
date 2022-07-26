@@ -4,6 +4,7 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/field"
+	"entgo.io/ent/schema/edge"
 	"entgo.io/contrib/entproto"
 )
 
@@ -30,5 +31,15 @@ func (Category) Fields() []ent.Field {
 		Annotations(
 			entproto.Field(2),
 		),
+	}
+}
+
+// Edges of the Category.
+func (Category) Edges() []ent.Edge {
+	return []ent.Edge{
+		edge.To("admin", User.Type).
+			Unique().
+			StorageKey(edge.Column("admin_id")).
+			Annotations(entproto.Field(3)),
 	}
 }

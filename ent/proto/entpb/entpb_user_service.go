@@ -8,6 +8,7 @@ import (
 	sqlgraph "entgo.io/ent/dialect/sql/sqlgraph"
 	fmt "fmt"
 	ent "github.com/ma-miyazaki/entgen-grpc-example/ent"
+	category "github.com/ma-miyazaki/entgen-grpc-example/ent/category"
 	user "github.com/ma-miyazaki/entgen-grpc-example/ent/user"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -36,6 +37,12 @@ func toProtoUser(e *ent.User) (*User, error) {
 	v.Id = id
 	name := e.Name
 	v.Name = name
+	for _, edg := range e.Edges.Administered {
+		id := edg.ID
+		v.Administered = append(v.Administered, &Category{
+			Id: id,
+		})
+	}
 	return v, nil
 }
 
@@ -90,6 +97,9 @@ func (svc *UserService) Get(ctx context.Context, req *GetUserRequest) (*User, er
 	case GetUserRequest_WITH_EDGE_IDS:
 		get, err = svc.client.User.Query().
 			Where(user.ID(id)).
+			WithAdministered(func(query *ent.CategoryQuery) {
+				query.Select(category.FieldID)
+			}).
 			Only(ctx)
 	default:
 		return nil, status.Error(codes.InvalidArgument, "invalid argument: unknown view")
@@ -114,6 +124,10 @@ func (svc *UserService) Update(ctx context.Context, req *UpdateUserRequest) (*Us
 	m.SetAge(userAge)
 	userName := user.GetName()
 	m.SetName(userName)
+	for _, item := range user.GetAdministered() {
+		administered := item.GetId()
+		m.AddAdministeredIDs(administered)
+	}
 
 	res, err := m.Save(ctx)
 	switch {
@@ -180,6 +194,9 @@ func (svc *UserService) List(ctx context.Context, req *ListUserRequest) (*ListUs
 		entList, err = listQuery.All(ctx)
 	case ListUserRequest_WITH_EDGE_IDS:
 		entList, err = listQuery.
+			WithAdministered(func(query *ent.CategoryQuery) {
+				query.Select(category.FieldID)
+			}).
 			All(ctx)
 	}
 	switch {
@@ -245,5 +262,9 @@ func (svc *UserService) createBuilder(user *User) (*ent.UserCreate, error) {
 	m.SetAge(userAge)
 	userName := user.GetName()
 	m.SetName(userName)
+	for _, item := range user.GetAdministered() {
+		administered := item.GetId()
+		m.AddAdministeredIDs(administered)
+	}
 	return m, nil
 }

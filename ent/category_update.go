@@ -12,6 +12,7 @@ import (
 	"entgo.io/ent/schema/field"
 	"github.com/ma-miyazaki/entgen-grpc-example/ent/category"
 	"github.com/ma-miyazaki/entgen-grpc-example/ent/predicate"
+	"github.com/ma-miyazaki/entgen-grpc-example/ent/user"
 )
 
 // CategoryUpdate is the builder for updating Category entities.
@@ -33,9 +34,34 @@ func (cu *CategoryUpdate) SetName(s string) *CategoryUpdate {
 	return cu
 }
 
+// SetAdminID sets the "admin" edge to the User entity by ID.
+func (cu *CategoryUpdate) SetAdminID(id string) *CategoryUpdate {
+	cu.mutation.SetAdminID(id)
+	return cu
+}
+
+// SetNillableAdminID sets the "admin" edge to the User entity by ID if the given value is not nil.
+func (cu *CategoryUpdate) SetNillableAdminID(id *string) *CategoryUpdate {
+	if id != nil {
+		cu = cu.SetAdminID(*id)
+	}
+	return cu
+}
+
+// SetAdmin sets the "admin" edge to the User entity.
+func (cu *CategoryUpdate) SetAdmin(u *User) *CategoryUpdate {
+	return cu.SetAdminID(u.ID)
+}
+
 // Mutation returns the CategoryMutation object of the builder.
 func (cu *CategoryUpdate) Mutation() *CategoryMutation {
 	return cu.mutation
+}
+
+// ClearAdmin clears the "admin" edge to the User entity.
+func (cu *CategoryUpdate) ClearAdmin() *CategoryUpdate {
+	cu.mutation.ClearAdmin()
+	return cu
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
@@ -117,6 +143,41 @@ func (cu *CategoryUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Column: category.FieldName,
 		})
 	}
+	if cu.mutation.AdminCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: false,
+			Table:   category.AdminTable,
+			Columns: []string{category.AdminColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: &sqlgraph.FieldSpec{
+					Type:   field.TypeString,
+					Column: user.FieldID,
+				},
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := cu.mutation.AdminIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: false,
+			Table:   category.AdminTable,
+			Columns: []string{category.AdminColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: &sqlgraph.FieldSpec{
+					Type:   field.TypeString,
+					Column: user.FieldID,
+				},
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
 	if n, err = sqlgraph.UpdateNodes(ctx, cu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{category.Label}
@@ -142,9 +203,34 @@ func (cuo *CategoryUpdateOne) SetName(s string) *CategoryUpdateOne {
 	return cuo
 }
 
+// SetAdminID sets the "admin" edge to the User entity by ID.
+func (cuo *CategoryUpdateOne) SetAdminID(id string) *CategoryUpdateOne {
+	cuo.mutation.SetAdminID(id)
+	return cuo
+}
+
+// SetNillableAdminID sets the "admin" edge to the User entity by ID if the given value is not nil.
+func (cuo *CategoryUpdateOne) SetNillableAdminID(id *string) *CategoryUpdateOne {
+	if id != nil {
+		cuo = cuo.SetAdminID(*id)
+	}
+	return cuo
+}
+
+// SetAdmin sets the "admin" edge to the User entity.
+func (cuo *CategoryUpdateOne) SetAdmin(u *User) *CategoryUpdateOne {
+	return cuo.SetAdminID(u.ID)
+}
+
 // Mutation returns the CategoryMutation object of the builder.
 func (cuo *CategoryUpdateOne) Mutation() *CategoryMutation {
 	return cuo.mutation
+}
+
+// ClearAdmin clears the "admin" edge to the User entity.
+func (cuo *CategoryUpdateOne) ClearAdmin() *CategoryUpdateOne {
+	cuo.mutation.ClearAdmin()
+	return cuo
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
@@ -255,6 +341,41 @@ func (cuo *CategoryUpdateOne) sqlSave(ctx context.Context) (_node *Category, err
 			Value:  value,
 			Column: category.FieldName,
 		})
+	}
+	if cuo.mutation.AdminCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: false,
+			Table:   category.AdminTable,
+			Columns: []string{category.AdminColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: &sqlgraph.FieldSpec{
+					Type:   field.TypeString,
+					Column: user.FieldID,
+				},
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := cuo.mutation.AdminIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2O,
+			Inverse: false,
+			Table:   category.AdminTable,
+			Columns: []string{category.AdminColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: &sqlgraph.FieldSpec{
+					Type:   field.TypeString,
+					Column: user.FieldID,
+				},
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
 	_node = &Category{config: cuo.config}
 	_spec.Assign = _node.assignValues
