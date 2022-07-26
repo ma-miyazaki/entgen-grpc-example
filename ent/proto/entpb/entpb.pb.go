@@ -69,7 +69,7 @@ func (x GetUserRequest_View) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use GetUserRequest_View.Descriptor instead.
 func (GetUserRequest_View) EnumDescriptor() ([]byte, []int) {
-	return file_entpb_entpb_proto_rawDescGZIP(), []int{2, 0}
+	return file_entpb_entpb_proto_rawDescGZIP(), []int{3, 0}
 }
 
 type ListUserRequest_View int32
@@ -118,7 +118,62 @@ func (x ListUserRequest_View) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use ListUserRequest_View.Descriptor instead.
 func (ListUserRequest_View) EnumDescriptor() ([]byte, []int) {
-	return file_entpb_entpb_proto_rawDescGZIP(), []int{5, 0}
+	return file_entpb_entpb_proto_rawDescGZIP(), []int{6, 0}
+}
+
+type Category struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Id   string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+}
+
+func (x *Category) Reset() {
+	*x = Category{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_entpb_entpb_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Category) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Category) ProtoMessage() {}
+
+func (x *Category) ProtoReflect() protoreflect.Message {
+	mi := &file_entpb_entpb_proto_msgTypes[0]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Category.ProtoReflect.Descriptor instead.
+func (*Category) Descriptor() ([]byte, []int) {
+	return file_entpb_entpb_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *Category) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *Category) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
 }
 
 type User struct {
@@ -134,7 +189,7 @@ type User struct {
 func (x *User) Reset() {
 	*x = User{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_entpb_entpb_proto_msgTypes[0]
+		mi := &file_entpb_entpb_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -147,7 +202,7 @@ func (x *User) String() string {
 func (*User) ProtoMessage() {}
 
 func (x *User) ProtoReflect() protoreflect.Message {
-	mi := &file_entpb_entpb_proto_msgTypes[0]
+	mi := &file_entpb_entpb_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -160,7 +215,7 @@ func (x *User) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use User.ProtoReflect.Descriptor instead.
 func (*User) Descriptor() ([]byte, []int) {
-	return file_entpb_entpb_proto_rawDescGZIP(), []int{0}
+	return file_entpb_entpb_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *User) GetId() string {
@@ -195,7 +250,7 @@ type CreateUserRequest struct {
 func (x *CreateUserRequest) Reset() {
 	*x = CreateUserRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_entpb_entpb_proto_msgTypes[1]
+		mi := &file_entpb_entpb_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -208,7 +263,7 @@ func (x *CreateUserRequest) String() string {
 func (*CreateUserRequest) ProtoMessage() {}
 
 func (x *CreateUserRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_entpb_entpb_proto_msgTypes[1]
+	mi := &file_entpb_entpb_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -221,7 +276,7 @@ func (x *CreateUserRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateUserRequest.ProtoReflect.Descriptor instead.
 func (*CreateUserRequest) Descriptor() ([]byte, []int) {
-	return file_entpb_entpb_proto_rawDescGZIP(), []int{1}
+	return file_entpb_entpb_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *CreateUserRequest) GetUser() *User {
@@ -243,7 +298,7 @@ type GetUserRequest struct {
 func (x *GetUserRequest) Reset() {
 	*x = GetUserRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_entpb_entpb_proto_msgTypes[2]
+		mi := &file_entpb_entpb_proto_msgTypes[3]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -256,7 +311,7 @@ func (x *GetUserRequest) String() string {
 func (*GetUserRequest) ProtoMessage() {}
 
 func (x *GetUserRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_entpb_entpb_proto_msgTypes[2]
+	mi := &file_entpb_entpb_proto_msgTypes[3]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -269,7 +324,7 @@ func (x *GetUserRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetUserRequest.ProtoReflect.Descriptor instead.
 func (*GetUserRequest) Descriptor() ([]byte, []int) {
-	return file_entpb_entpb_proto_rawDescGZIP(), []int{2}
+	return file_entpb_entpb_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *GetUserRequest) GetId() string {
@@ -297,7 +352,7 @@ type UpdateUserRequest struct {
 func (x *UpdateUserRequest) Reset() {
 	*x = UpdateUserRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_entpb_entpb_proto_msgTypes[3]
+		mi := &file_entpb_entpb_proto_msgTypes[4]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -310,7 +365,7 @@ func (x *UpdateUserRequest) String() string {
 func (*UpdateUserRequest) ProtoMessage() {}
 
 func (x *UpdateUserRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_entpb_entpb_proto_msgTypes[3]
+	mi := &file_entpb_entpb_proto_msgTypes[4]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -323,7 +378,7 @@ func (x *UpdateUserRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateUserRequest.ProtoReflect.Descriptor instead.
 func (*UpdateUserRequest) Descriptor() ([]byte, []int) {
-	return file_entpb_entpb_proto_rawDescGZIP(), []int{3}
+	return file_entpb_entpb_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *UpdateUserRequest) GetUser() *User {
@@ -344,7 +399,7 @@ type DeleteUserRequest struct {
 func (x *DeleteUserRequest) Reset() {
 	*x = DeleteUserRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_entpb_entpb_proto_msgTypes[4]
+		mi := &file_entpb_entpb_proto_msgTypes[5]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -357,7 +412,7 @@ func (x *DeleteUserRequest) String() string {
 func (*DeleteUserRequest) ProtoMessage() {}
 
 func (x *DeleteUserRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_entpb_entpb_proto_msgTypes[4]
+	mi := &file_entpb_entpb_proto_msgTypes[5]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -370,7 +425,7 @@ func (x *DeleteUserRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteUserRequest.ProtoReflect.Descriptor instead.
 func (*DeleteUserRequest) Descriptor() ([]byte, []int) {
-	return file_entpb_entpb_proto_rawDescGZIP(), []int{4}
+	return file_entpb_entpb_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *DeleteUserRequest) GetId() string {
@@ -393,7 +448,7 @@ type ListUserRequest struct {
 func (x *ListUserRequest) Reset() {
 	*x = ListUserRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_entpb_entpb_proto_msgTypes[5]
+		mi := &file_entpb_entpb_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -406,7 +461,7 @@ func (x *ListUserRequest) String() string {
 func (*ListUserRequest) ProtoMessage() {}
 
 func (x *ListUserRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_entpb_entpb_proto_msgTypes[5]
+	mi := &file_entpb_entpb_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -419,7 +474,7 @@ func (x *ListUserRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListUserRequest.ProtoReflect.Descriptor instead.
 func (*ListUserRequest) Descriptor() ([]byte, []int) {
-	return file_entpb_entpb_proto_rawDescGZIP(), []int{5}
+	return file_entpb_entpb_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *ListUserRequest) GetPageSize() int32 {
@@ -455,7 +510,7 @@ type ListUserResponse struct {
 func (x *ListUserResponse) Reset() {
 	*x = ListUserResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_entpb_entpb_proto_msgTypes[6]
+		mi := &file_entpb_entpb_proto_msgTypes[7]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -468,7 +523,7 @@ func (x *ListUserResponse) String() string {
 func (*ListUserResponse) ProtoMessage() {}
 
 func (x *ListUserResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_entpb_entpb_proto_msgTypes[6]
+	mi := &file_entpb_entpb_proto_msgTypes[7]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -481,7 +536,7 @@ func (x *ListUserResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListUserResponse.ProtoReflect.Descriptor instead.
 func (*ListUserResponse) Descriptor() ([]byte, []int) {
-	return file_entpb_entpb_proto_rawDescGZIP(), []int{6}
+	return file_entpb_entpb_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *ListUserResponse) GetUserList() []*User {
@@ -509,7 +564,7 @@ type BatchCreateUsersRequest struct {
 func (x *BatchCreateUsersRequest) Reset() {
 	*x = BatchCreateUsersRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_entpb_entpb_proto_msgTypes[7]
+		mi := &file_entpb_entpb_proto_msgTypes[8]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -522,7 +577,7 @@ func (x *BatchCreateUsersRequest) String() string {
 func (*BatchCreateUsersRequest) ProtoMessage() {}
 
 func (x *BatchCreateUsersRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_entpb_entpb_proto_msgTypes[7]
+	mi := &file_entpb_entpb_proto_msgTypes[8]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -535,7 +590,7 @@ func (x *BatchCreateUsersRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BatchCreateUsersRequest.ProtoReflect.Descriptor instead.
 func (*BatchCreateUsersRequest) Descriptor() ([]byte, []int) {
-	return file_entpb_entpb_proto_rawDescGZIP(), []int{7}
+	return file_entpb_entpb_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *BatchCreateUsersRequest) GetRequests() []*CreateUserRequest {
@@ -556,7 +611,7 @@ type BatchCreateUsersResponse struct {
 func (x *BatchCreateUsersResponse) Reset() {
 	*x = BatchCreateUsersResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_entpb_entpb_proto_msgTypes[8]
+		mi := &file_entpb_entpb_proto_msgTypes[9]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -569,7 +624,7 @@ func (x *BatchCreateUsersResponse) String() string {
 func (*BatchCreateUsersResponse) ProtoMessage() {}
 
 func (x *BatchCreateUsersResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_entpb_entpb_proto_msgTypes[8]
+	mi := &file_entpb_entpb_proto_msgTypes[9]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -582,7 +637,7 @@ func (x *BatchCreateUsersResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BatchCreateUsersResponse.ProtoReflect.Descriptor instead.
 func (*BatchCreateUsersResponse) Descriptor() ([]byte, []int) {
-	return file_entpb_entpb_proto_rawDescGZIP(), []int{8}
+	return file_entpb_entpb_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *BatchCreateUsersResponse) GetUsers() []*User {
@@ -598,7 +653,10 @@ var file_entpb_entpb_proto_rawDesc = []byte{
 	0x0a, 0x11, 0x65, 0x6e, 0x74, 0x70, 0x62, 0x2f, 0x65, 0x6e, 0x74, 0x70, 0x62, 0x2e, 0x70, 0x72,
 	0x6f, 0x74, 0x6f, 0x12, 0x05, 0x65, 0x6e, 0x74, 0x70, 0x62, 0x1a, 0x1b, 0x67, 0x6f, 0x6f, 0x67,
 	0x6c, 0x65, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2f, 0x65, 0x6d, 0x70, 0x74,
-	0x79, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x3c, 0x0a, 0x04, 0x55, 0x73, 0x65, 0x72, 0x12,
+	0x79, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x2e, 0x0a, 0x08, 0x43, 0x61, 0x74, 0x65, 0x67,
+	0x6f, 0x72, 0x79, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x02, 0x69, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x22, 0x3c, 0x0a, 0x04, 0x55, 0x73, 0x65, 0x72, 0x12,
 	0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x12,
 	0x10, 0x0a, 0x03, 0x61, 0x67, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x03, 0x52, 0x03, 0x61, 0x67,
 	0x65, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52,
@@ -689,41 +747,42 @@ func file_entpb_entpb_proto_rawDescGZIP() []byte {
 }
 
 var file_entpb_entpb_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_entpb_entpb_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
+var file_entpb_entpb_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_entpb_entpb_proto_goTypes = []interface{}{
 	(GetUserRequest_View)(0),         // 0: entpb.GetUserRequest.View
 	(ListUserRequest_View)(0),        // 1: entpb.ListUserRequest.View
-	(*User)(nil),                     // 2: entpb.User
-	(*CreateUserRequest)(nil),        // 3: entpb.CreateUserRequest
-	(*GetUserRequest)(nil),           // 4: entpb.GetUserRequest
-	(*UpdateUserRequest)(nil),        // 5: entpb.UpdateUserRequest
-	(*DeleteUserRequest)(nil),        // 6: entpb.DeleteUserRequest
-	(*ListUserRequest)(nil),          // 7: entpb.ListUserRequest
-	(*ListUserResponse)(nil),         // 8: entpb.ListUserResponse
-	(*BatchCreateUsersRequest)(nil),  // 9: entpb.BatchCreateUsersRequest
-	(*BatchCreateUsersResponse)(nil), // 10: entpb.BatchCreateUsersResponse
-	(*emptypb.Empty)(nil),            // 11: google.protobuf.Empty
+	(*Category)(nil),                 // 2: entpb.Category
+	(*User)(nil),                     // 3: entpb.User
+	(*CreateUserRequest)(nil),        // 4: entpb.CreateUserRequest
+	(*GetUserRequest)(nil),           // 5: entpb.GetUserRequest
+	(*UpdateUserRequest)(nil),        // 6: entpb.UpdateUserRequest
+	(*DeleteUserRequest)(nil),        // 7: entpb.DeleteUserRequest
+	(*ListUserRequest)(nil),          // 8: entpb.ListUserRequest
+	(*ListUserResponse)(nil),         // 9: entpb.ListUserResponse
+	(*BatchCreateUsersRequest)(nil),  // 10: entpb.BatchCreateUsersRequest
+	(*BatchCreateUsersResponse)(nil), // 11: entpb.BatchCreateUsersResponse
+	(*emptypb.Empty)(nil),            // 12: google.protobuf.Empty
 }
 var file_entpb_entpb_proto_depIdxs = []int32{
-	2,  // 0: entpb.CreateUserRequest.user:type_name -> entpb.User
+	3,  // 0: entpb.CreateUserRequest.user:type_name -> entpb.User
 	0,  // 1: entpb.GetUserRequest.view:type_name -> entpb.GetUserRequest.View
-	2,  // 2: entpb.UpdateUserRequest.user:type_name -> entpb.User
+	3,  // 2: entpb.UpdateUserRequest.user:type_name -> entpb.User
 	1,  // 3: entpb.ListUserRequest.view:type_name -> entpb.ListUserRequest.View
-	2,  // 4: entpb.ListUserResponse.user_list:type_name -> entpb.User
-	3,  // 5: entpb.BatchCreateUsersRequest.requests:type_name -> entpb.CreateUserRequest
-	2,  // 6: entpb.BatchCreateUsersResponse.users:type_name -> entpb.User
-	3,  // 7: entpb.UserService.Create:input_type -> entpb.CreateUserRequest
-	4,  // 8: entpb.UserService.Get:input_type -> entpb.GetUserRequest
-	5,  // 9: entpb.UserService.Update:input_type -> entpb.UpdateUserRequest
-	6,  // 10: entpb.UserService.Delete:input_type -> entpb.DeleteUserRequest
-	7,  // 11: entpb.UserService.List:input_type -> entpb.ListUserRequest
-	9,  // 12: entpb.UserService.BatchCreate:input_type -> entpb.BatchCreateUsersRequest
-	2,  // 13: entpb.UserService.Create:output_type -> entpb.User
-	2,  // 14: entpb.UserService.Get:output_type -> entpb.User
-	2,  // 15: entpb.UserService.Update:output_type -> entpb.User
-	11, // 16: entpb.UserService.Delete:output_type -> google.protobuf.Empty
-	8,  // 17: entpb.UserService.List:output_type -> entpb.ListUserResponse
-	10, // 18: entpb.UserService.BatchCreate:output_type -> entpb.BatchCreateUsersResponse
+	3,  // 4: entpb.ListUserResponse.user_list:type_name -> entpb.User
+	4,  // 5: entpb.BatchCreateUsersRequest.requests:type_name -> entpb.CreateUserRequest
+	3,  // 6: entpb.BatchCreateUsersResponse.users:type_name -> entpb.User
+	4,  // 7: entpb.UserService.Create:input_type -> entpb.CreateUserRequest
+	5,  // 8: entpb.UserService.Get:input_type -> entpb.GetUserRequest
+	6,  // 9: entpb.UserService.Update:input_type -> entpb.UpdateUserRequest
+	7,  // 10: entpb.UserService.Delete:input_type -> entpb.DeleteUserRequest
+	8,  // 11: entpb.UserService.List:input_type -> entpb.ListUserRequest
+	10, // 12: entpb.UserService.BatchCreate:input_type -> entpb.BatchCreateUsersRequest
+	3,  // 13: entpb.UserService.Create:output_type -> entpb.User
+	3,  // 14: entpb.UserService.Get:output_type -> entpb.User
+	3,  // 15: entpb.UserService.Update:output_type -> entpb.User
+	12, // 16: entpb.UserService.Delete:output_type -> google.protobuf.Empty
+	9,  // 17: entpb.UserService.List:output_type -> entpb.ListUserResponse
+	11, // 18: entpb.UserService.BatchCreate:output_type -> entpb.BatchCreateUsersResponse
 	13, // [13:19] is the sub-list for method output_type
 	7,  // [7:13] is the sub-list for method input_type
 	7,  // [7:7] is the sub-list for extension type_name
@@ -738,7 +797,7 @@ func file_entpb_entpb_proto_init() {
 	}
 	if !protoimpl.UnsafeEnabled {
 		file_entpb_entpb_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*User); i {
+			switch v := v.(*Category); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -750,7 +809,7 @@ func file_entpb_entpb_proto_init() {
 			}
 		}
 		file_entpb_entpb_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CreateUserRequest); i {
+			switch v := v.(*User); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -762,7 +821,7 @@ func file_entpb_entpb_proto_init() {
 			}
 		}
 		file_entpb_entpb_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetUserRequest); i {
+			switch v := v.(*CreateUserRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -774,7 +833,7 @@ func file_entpb_entpb_proto_init() {
 			}
 		}
 		file_entpb_entpb_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UpdateUserRequest); i {
+			switch v := v.(*GetUserRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -786,7 +845,7 @@ func file_entpb_entpb_proto_init() {
 			}
 		}
 		file_entpb_entpb_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*DeleteUserRequest); i {
+			switch v := v.(*UpdateUserRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -798,7 +857,7 @@ func file_entpb_entpb_proto_init() {
 			}
 		}
 		file_entpb_entpb_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ListUserRequest); i {
+			switch v := v.(*DeleteUserRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -810,7 +869,7 @@ func file_entpb_entpb_proto_init() {
 			}
 		}
 		file_entpb_entpb_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ListUserResponse); i {
+			switch v := v.(*ListUserRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -822,7 +881,7 @@ func file_entpb_entpb_proto_init() {
 			}
 		}
 		file_entpb_entpb_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*BatchCreateUsersRequest); i {
+			switch v := v.(*ListUserResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -834,6 +893,18 @@ func file_entpb_entpb_proto_init() {
 			}
 		}
 		file_entpb_entpb_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*BatchCreateUsersRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_entpb_entpb_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*BatchCreateUsersResponse); i {
 			case 0:
 				return &v.state
@@ -852,7 +923,7 @@ func file_entpb_entpb_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_entpb_entpb_proto_rawDesc,
 			NumEnums:      2,
-			NumMessages:   9,
+			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

@@ -7,6 +7,12 @@ import "google/protobuf/empty.proto";
 
 option go_package = "github.com/ma-miyazaki/entgen-grpc-example/ent/proto/entpb";
 
+message Category {
+  string id = 1;
+
+  string name = 2;
+}
+
 message User {
   string id = 1;
 
