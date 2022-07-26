@@ -15,6 +15,62 @@ message Category {
   User admin = 3;
 }
 
+message CreateCategoryRequest {
+  Category category = 1;
+}
+
+message GetCategoryRequest {
+  string id = 1;
+
+  View view = 2;
+
+  enum View {
+    VIEW_UNSPECIFIED = 0;
+
+    BASIC = 1;
+
+    WITH_EDGE_IDS = 2;
+  }
+}
+
+message UpdateCategoryRequest {
+  Category category = 1;
+}
+
+message DeleteCategoryRequest {
+  string id = 1;
+}
+
+message ListCategoryRequest {
+  int32 page_size = 1;
+
+  string page_token = 2;
+
+  View view = 3;
+
+  enum View {
+    VIEW_UNSPECIFIED = 0;
+
+    BASIC = 1;
+
+    WITH_EDGE_IDS = 2;
+  }
+}
+
+message ListCategoryResponse {
+  repeated Category category_list = 1;
+
+  string next_page_token = 2;
+}
+
+message BatchCreateCategoriesRequest {
+  repeated CreateCategoryRequest requests = 1;
+}
+
+message BatchCreateCategoriesResponse {
+  repeated Category categories = 1;
+}
+
 message User {
   string id = 1;
 
@@ -79,6 +135,20 @@ message BatchCreateUsersRequest {
 
 message BatchCreateUsersResponse {
   repeated User users = 1;
+}
+
+service CategoryService {
+  rpc Create ( CreateCategoryRequest ) returns ( Category );
+
+  rpc Get ( GetCategoryRequest ) returns ( Category );
+
+  rpc Update ( UpdateCategoryRequest ) returns ( Category );
+
+  rpc Delete ( DeleteCategoryRequest ) returns ( google.protobuf.Empty );
+
+  rpc List ( ListCategoryRequest ) returns ( ListCategoryResponse );
+
+  rpc BatchCreate ( BatchCreateCategoriesRequest ) returns ( BatchCreateCategoriesResponse );
 }
 
 service UserService {

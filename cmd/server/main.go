@@ -34,6 +34,7 @@ func main() {
 
     // Register the User service with the server.
     entpb.RegisterUserServiceServer(server, svc)
+		entpb.RegisterCategoryServiceServer(server, entpb.NewCategoryService(client))
 
     // Open port 50050 for listening to traffic.
     lis, err := net.Listen("tcp", ":50050")
