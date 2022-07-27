@@ -6,6 +6,7 @@ import (
 	"entgo.io/ent/schema/field"
 	"entgo.io/ent/schema/edge"
 	"entgo.io/contrib/entproto"
+	"github.com/oklog/ulid/v2"
 )
 
 // Category holds the schema definition for the Category entity.
@@ -24,13 +25,16 @@ func (Category) Annotations() []schema.Annotation {
 func (Category) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("id").
-		Annotations(
-			entproto.Field(1),
-		),
+			DefaultFunc(func() string {
+				return ulid.Make().String()
+			}).
+			Annotations(
+				entproto.Field(1),
+			),
 		field.String("name").
-		Annotations(
-			entproto.Field(2),
-		),
+			Annotations(
+				entproto.Field(2),
+			),
 	}
 }
 

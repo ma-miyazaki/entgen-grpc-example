@@ -6,6 +6,7 @@ import (
 	"entgo.io/ent/schema/field"
 	"entgo.io/ent/schema/edge"
 	"entgo.io/contrib/entproto"
+	"github.com/oklog/ulid/v2"
 )
 
 // User holds the schema definition for the User entity.
@@ -24,17 +25,20 @@ func (User) Annotations() []schema.Annotation {
 func (User) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("id").
-		Annotations(
-			entproto.Field(1),
-		),
+			DefaultFunc(func() string {
+				return ulid.Make().String()
+			}).
+			Annotations(
+				entproto.Field(1),
+			),
 		field.Int("age").
-		Annotations(
-			entproto.Field(2),
-		),
+			Annotations(
+				entproto.Field(2),
+			),
 		field.String("name").
-		Annotations(
-			entproto.Field(3),
-		),
+			Annotations(
+				entproto.Field(3),
+			),
 	}
 }
 

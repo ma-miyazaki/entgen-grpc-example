@@ -2,8 +2,26 @@
 
 package ent
 
+import (
+	"github.com/ma-miyazaki/entgen-grpc-example/ent/category"
+	"github.com/ma-miyazaki/entgen-grpc-example/ent/schema"
+	"github.com/ma-miyazaki/entgen-grpc-example/ent/user"
+)
+
 // The init function reads all schema descriptors with runtime code
 // (default values, validators, hooks and policies) and stitches it
 // to their package variables.
 func init() {
+	categoryFields := schema.Category{}.Fields()
+	_ = categoryFields
+	// categoryDescID is the schema descriptor for id field.
+	categoryDescID := categoryFields[0].Descriptor()
+	// category.DefaultID holds the default value on creation for the id field.
+	category.DefaultID = categoryDescID.Default.(func() string)
+	userFields := schema.User{}.Fields()
+	_ = userFields
+	// userDescID is the schema descriptor for id field.
+	userDescID := userFields[0].Descriptor()
+	// user.DefaultID holds the default value on creation for the id field.
+	user.DefaultID = userDescID.Default.(func() string)
 }

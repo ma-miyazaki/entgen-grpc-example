@@ -6,6 +6,7 @@ require (
 	entgo.io/contrib v0.3.0
 	entgo.io/ent v0.11.1
 	github.com/mattn/go-sqlite3 v1.14.13
+	github.com/oklog/ulid/v2 v2.1.0
 	google.golang.org/grpc v1.47.0
 	google.golang.org/protobuf v1.28.0
 )

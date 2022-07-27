@@ -32,6 +32,14 @@ func (cc *CategoryCreate) SetID(s string) *CategoryCreate {
 	return cc
 }
 
+// SetNillableID sets the "id" field if the given value is not nil.
+func (cc *CategoryCreate) SetNillableID(s *string) *CategoryCreate {
+	if s != nil {
+		cc.SetID(*s)
+	}
+	return cc
+}
+
 // SetAdminID sets the "admin" edge to the User entity by ID.
 func (cc *CategoryCreate) SetAdminID(id string) *CategoryCreate {
 	cc.mutation.SetAdminID(id)
@@ -62,6 +70,7 @@ func (cc *CategoryCreate) Save(ctx context.Context) (*Category, error) {
 		err  error
 		node *Category
 	)
+	cc.defaults()
 	if len(cc.hooks) == 0 {
 		if err = cc.check(); err != nil {
 			return nil, err
@@ -122,6 +131,14 @@ func (cc *CategoryCreate) Exec(ctx context.Context) error {
 func (cc *CategoryCreate) ExecX(ctx context.Context) {
 	if err := cc.Exec(ctx); err != nil {
 		panic(err)
+	}
+}
+
+// defaults sets the default values of the builder before save.
+func (cc *CategoryCreate) defaults() {
+	if _, ok := cc.mutation.ID(); !ok {
+		v := category.DefaultID()
+		cc.mutation.SetID(v)
 	}
 }
 
@@ -211,6 +228,7 @@ func (ccb *CategoryCreateBulk) Save(ctx context.Context) ([]*Category, error) {
 	for i := range ccb.builders {
 		func(i int, root context.Context) {
 			builder := ccb.builders[i]
+			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*CategoryMutation)
 				if !ok {
